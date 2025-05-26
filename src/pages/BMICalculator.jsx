@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { FaWeight, FaRuler } from "react-icons/fa";
 
 export default function BMICalculator() {
-  // use strings so the field can be blank
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
   const [result, setResult] = useState(null);
@@ -12,11 +11,21 @@ export default function BMICalculator() {
     e.preventDefault();
     const w = parseFloat(weight);
     const h = parseFloat(height) / 100;
-    if (!w || !h) return; // guard against empty or zero
+    if (!w || !h) return;
+
     const bmi = w / (h * h);
     let status = "Ideal";
-    if (bmi < 18.5) status = "Low";
-    else if (bmi >= 25) status = "High";
+
+    if (bmi < 18.5) {
+      status = "Low";
+    } else if (bmi >= 25 && bmi < 30) {
+      status = "Overweight";
+    } else if (bmi >= 30 && bmi < 35) {
+      status = "Obese";
+    } else if (bmi >= 35) {
+      status = "Extremely Obese";
+    }
+
     const idealWeight = 22.5 * h * h;
     setResult({
       bmi: bmi.toFixed(1),
@@ -27,9 +36,18 @@ export default function BMICalculator() {
 
   const getImage = () => {
     if (!result) return null;
-    if (result.status === "Low") return "low.png";
-    if (result.status === "High") return "high.png";
-    return "idel.png";
+    switch (result.status) {
+      case "Low":
+        return "low.png";
+      case "Overweight":
+        return "overweight.png";
+      case "Obese":
+        return "obese.png";
+      case "Extremely Obese":
+        return "extremely-obese.png";
+      default: // Ideal
+        return "normal.png";
+    }
   };
 
   return (
@@ -75,9 +93,9 @@ export default function BMICalculator() {
             className={
               (result.status === "Low"
                 ? "bg-yellow-50 border-yellow-500"
-                : result.status === "High"
-                ? "bg-red-50 border-red-500"
-                : "bg-green-50 border-green-600") +
+                : result.status === "Ideal"
+                ? "bg-green-50 border-green-600"
+                : "bg-red-50 border-red-500") +
               " border-l-4 p-4 rounded-lg flex flex-col items-center text-center space-y-2"
             }
           >

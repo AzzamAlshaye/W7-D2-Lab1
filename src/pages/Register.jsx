@@ -58,11 +58,11 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-400 to-pink-500 p-6">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-400 to-blue-600 p-6">
       <ToastContainer position="top-center" />
       <div className="bg-white bg-opacity-90 backdrop-blur-lg shadow-2xl rounded-3xl max-w-md w-full p-8">
         <div className="flex flex-col items-center mb-6">
-          <FaUserPlus className="text-5xl text-pink-600 mb-2" />
+          <FaUserPlus className="text-5xl text-blue-600  mb-2" />
           <h2 className="text-2xl font-bold text-gray-700">Create Account</h2>
         </div>
 
@@ -84,7 +84,7 @@ export default function Register() {
                   type="text"
                   id="fullName"
                   name="fullName"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-300"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
                 />
                 <ErrorMessage
                   name="fullName"
@@ -104,7 +104,7 @@ export default function Register() {
                   type="email"
                   id="email"
                   name="email"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-300"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
                 />
                 <ErrorMessage
                   name="email"
@@ -124,7 +124,7 @@ export default function Register() {
                   type="password"
                   id="password"
                   name="password"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-300"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
                 />
                 <ErrorMessage
                   name="password"
@@ -144,7 +144,7 @@ export default function Register() {
                   type="password"
                   id="confirmPassword"
                   name="confirmPassword"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-300"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
                 />
                 <ErrorMessage
                   name="confirmPassword"
@@ -156,7 +156,7 @@ export default function Register() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-2 bg-pink-600 text-white font-semibold rounded-lg hover:bg-pink-700 transition"
+                className="w-full py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-500 transition"
               >
                 {isSubmitting ? "Signing Up..." : "Sign Up"}
               </button>
@@ -168,7 +168,7 @@ export default function Register() {
           Already have an account?{" "}
           <Link
             to="/login"
-            className="text-pink-600 font-medium hover:underline"
+            className="text-blue-600 font-medium hover:underline"
           >
             Log In
           </Link>
