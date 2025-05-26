@@ -1,10 +1,11 @@
-// src/pages/RegisterPage.jsx
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useNavigate, Link } from "react-router";
 import { FaUserPlus } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export default function RegisterPage() {
+export default function Register() {
   const navigate = useNavigate();
   const initialValues = {
     fullName: "",
@@ -13,11 +14,8 @@ export default function RegisterPage() {
     confirmPassword: "",
   };
 
-  // Manual validation instead of Yup
   const validate = (values) => {
     const errors = {};
-
-    // Full Name
     if (!values.fullName) {
       errors.fullName = "Required";
     } else if (values.fullName.length < 3) {
@@ -25,28 +23,21 @@ export default function RegisterPage() {
     } else if (values.fullName.length > 50) {
       errors.fullName = "Can't exceed 50 characters";
     }
-
-    // Email
     if (!values.email) {
       errors.email = "Required";
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
       errors.email = "Invalid email address";
     }
-
-    // Password
     if (!values.password) {
       errors.password = "Required";
     } else if (values.password.length < 8) {
       errors.password = "Must be at least 8 characters";
     }
-
-    // Confirm Password
     if (!values.confirmPassword) {
       errors.confirmPassword = "Required";
     } else if (values.confirmPassword !== values.password) {
       errors.confirmPassword = "Passwords must match";
     }
-
     return errors;
   };
 
@@ -57,7 +48,10 @@ export default function RegisterPage() {
       password: values.password,
     };
     localStorage.setItem("user", JSON.stringify(user));
-    alert("Sign up successful!");
+    toast.success("Sign up successful!", {
+      position: "top-right",
+      autoClose: 3000,
+    });
     resetForm();
     setSubmitting(false);
     navigate("/login");
@@ -65,6 +59,7 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-400 to-pink-500 p-6">
+      <ToastContainer />
       <div className="bg-white bg-opacity-90 backdrop-blur-lg shadow-2xl rounded-3xl max-w-md w-full p-8">
         <div className="flex flex-col items-center mb-6">
           <FaUserPlus className="text-5xl text-pink-600 mb-2" />

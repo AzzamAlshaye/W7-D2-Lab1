@@ -1,8 +1,9 @@
-// src/pages/LoginPage.jsx
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useNavigate, Link } from "react-router";
 import { FaUserCircle } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -31,13 +32,17 @@ export default function LoginPage() {
       localStorage.setItem("isAuthenticated", "true");
       navigate("/bmi");
     } else {
-      alert("Invalid email or password");
+      toast.error("Invalid email or password", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
     setSubmitting(false);
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-400 to-blue-600 p-6">
+      <ToastContainer />
       <div className="bg-white bg-opacity-90 backdrop-blur-lg shadow-2xl rounded-3xl max-w-4xl w-full overflow-hidden flex flex-col md:flex-row">
         {/* Welcome Panel */}
         <div className="hidden md:flex flex-1 flex-col items-center justify-center p-10 bg-gradient-to-tr from-purple-600 to-blue-400 text-white space-y-4">
