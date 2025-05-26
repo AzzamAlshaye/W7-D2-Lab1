@@ -11,6 +11,7 @@ import Footer from "../components/Footer";
 import LoginPage from "../pages/LoginPage";
 import HomePage from "../pages/HomePage";
 import BMICalculator from "../pages/BMICalculator";
+import ProtectedRoute from "../pages/ProtectedRoute";
 
 function RootLayout() {
   return (
@@ -27,10 +28,29 @@ const router = createBrowserRouter([
     path: "/",
     element: <RootLayout />,
     children: [
-      { index: true, element: <LoginPage /> }, // "/"
-      { path: "login", element: <LoginPage /> }, // "/login"
-      { path: "home", element: <HomePage /> }, // "/home"
-      { path: "bmi", element: <BMICalculator /> }, // "/bmi"
+      // Public
+      { index: true, element: <LoginPage /> },
+      { path: "login", element: <LoginPage /> },
+
+      // Protected
+      {
+        path: "home",
+        element: (
+          <ProtectedRoute>
+            <HomePage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "bmi",
+        element: (
+          <ProtectedRoute>
+            <BMICalculator />
+          </ProtectedRoute>
+        ),
+      },
+
+      // Fallback
       { path: "*", element: <Navigate to="/login" replace /> },
     ],
   },

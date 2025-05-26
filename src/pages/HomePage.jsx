@@ -1,14 +1,16 @@
+// src/pages/HomePage.jsx
 import React from "react";
 
 export default function HomePage() {
   return (
-    <section className="flex flex-col space-y-4 text-center h-[80vh] justify-center items-center gap-10 lg:px-80 px-0 ">
-      <h1 className="text-5xl font-bold">Welcome to Tuwaiq Academy</h1>
-      <p className="text-lg text-center">
-        At Tuwaiq Academy, we empower learners with cutting-edge skills in web
-        development, software engineering, and more. Join us to advance your
-        career and master the latest technologies.
-      </p>
-    </section>
+    <main className="min-h-screen bg-gray-50 p-4">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold mb-6">Welcome to the Home Page</h1>
+        <p className="text-gray-700">
+          This is the protected content visible only to logged-in users.
+        </p>
+        {/* …your actual home page components… */}
+      </div>
+    </main>
   );
 }

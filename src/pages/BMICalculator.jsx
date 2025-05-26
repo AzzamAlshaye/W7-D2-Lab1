@@ -1,3 +1,4 @@
+// src/pages/BMICalculator.jsx
 import React, { useState } from "react";
 
 export default function BMICalculator() {
@@ -12,9 +13,7 @@ export default function BMICalculator() {
     let status = "Ideal";
     if (bmi < 18.5) status = "Low";
     else if (bmi >= 25) status = "High";
-
     const idealWeight = 22.5 * h * h;
-
     setResult({
       bmi: bmi.toFixed(1),
       status,
@@ -31,7 +30,7 @@ export default function BMICalculator() {
 
   return (
     <div className="max-w-md mx-auto bg-white p-6 rounded shadow mt-6">
-      <h2 className="text-xl font-bold mb-4">BMI Calculator</h2>
+      <h2 className="text-xl font-bold mb-4 text-center">BMI Calculator</h2>
       <form onSubmit={calculate} className="space-y-4">
         <div>
           <label className="block font-medium">Weight (kg)</label>

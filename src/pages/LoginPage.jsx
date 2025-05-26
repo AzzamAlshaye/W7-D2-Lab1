@@ -1,3 +1,4 @@
+// src/pages/LoginPage.jsx
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useNavigate } from "react-router";
@@ -6,16 +7,14 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const initialValues = { email: "", password: "" };
 
-  // Custom validation instead of Yup
+  // Simple, in-line validation instead of Yup
   const validate = (values) => {
     const errors = {};
-    // Email validation
     if (!values.email) {
       errors.email = "Required";
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
       errors.email = "Invalid email address";
     }
-    // Password validation
     if (!values.password) {
       errors.password = "Required";
     }
