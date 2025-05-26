@@ -72,8 +72,8 @@ export default function Navbar({ children }) {
         <div className="container mx-auto flex items-center justify-between p-4">
           {/* Brand */}
           <Link to="/home" className="flex items-center space-x-2">
-            <img src="react-icon.webp" alt="icon" className="h-10" />
-            <span className="text-xl font-bold">My Company</span>
+            <img src="logo.webp" alt="icon" className="h-20" />
+            <span className="text-xl font-bold">BMI Calculater</span>
           </Link>
 
           {/* Desktop Links */}
@@ -88,7 +88,7 @@ export default function Navbar({ children }) {
           {/* Username + Logout on lg+ */}
           <div className="hidden lg:flex items-center space-x-4">
             {userName && (
-              <span className="text-sm text-gray-200 whitespace-nowrap">
+              <span className="text-sm text-gray-200 font-semibold whitespace-nowrap">
                 Hello, {userName}
               </span>
             )}
@@ -128,7 +128,9 @@ export default function Navbar({ children }) {
               </li>
             ))}
             {userName && (
-              <li className="px-4 py-2 text-gray-200">Hello, {userName}</li>
+              <li className="px-4 py-2 text-gray-200 font-semibold">
+                Hello, {userName}
+              </li>
             )}
             <li className="px-4 py-2">
               <button
