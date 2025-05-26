@@ -1,8 +1,13 @@
-// src/components/ProtectedRoute.jsx
 import React from "react";
-import BlockedScreen from "./BlockedScreen";
+import { Navigate, useLocation } from "react-router";
 
 export default function ProtectedRoute({ children }) {
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
-  return isAuthenticated ? children : <BlockedScreen />;
+  const location = useLocation();
+
+  return isAuthenticated ? (
+    children
+  ) : (
+    <Navigate to="/login" state={{ from: location }} replace />
+  );
 }

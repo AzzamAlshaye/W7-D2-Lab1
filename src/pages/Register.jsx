@@ -1,8 +1,11 @@
+// src/pages/RegisterPage.jsx
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import { useNavigate, Link } from "react-router";
+import { FaUserPlus } from "react-icons/fa";
 
-const SignUpPage = () => {
+export default function RegisterPage() {
+  const navigate = useNavigate();
   const initialValues = {
     fullName: "",
     email: "",
@@ -10,19 +13,42 @@ const SignUpPage = () => {
     confirmPassword: "",
   };
 
-  const validationSchema = Yup.object({
-    fullName: Yup.string()
-      .min(3, "Full Name must be at least 3 characters")
-      .max(50, "Full Name can't exceed 50 characters")
-      .required("Required"),
-    email: Yup.string().email("Invalid email address").required("Required"),
-    password: Yup.string()
-      .min(8, "Password must be at least 8 characters")
-      .required("Required"),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password"), null], "Passwords must match")
-      .required("Required"),
-  });
+  // Manual validation instead of Yup
+  const validate = (values) => {
+    const errors = {};
+
+    // Full Name
+    if (!values.fullName) {
+      errors.fullName = "Required";
+    } else if (values.fullName.length < 3) {
+      errors.fullName = "Must be at least 3 characters";
+    } else if (values.fullName.length > 50) {
+      errors.fullName = "Can't exceed 50 characters";
+    }
+
+    // Email
+    if (!values.email) {
+      errors.email = "Required";
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+      errors.email = "Invalid email address";
+    }
+
+    // Password
+    if (!values.password) {
+      errors.password = "Required";
+    } else if (values.password.length < 8) {
+      errors.password = "Must be at least 8 characters";
+    }
+
+    // Confirm Password
+    if (!values.confirmPassword) {
+      errors.confirmPassword = "Required";
+    } else if (values.confirmPassword !== values.password) {
+      errors.confirmPassword = "Passwords must match";
+    }
+
+    return errors;
+  };
 
   const onSubmit = (values, { setSubmitting, resetForm }) => {
     const user = {
@@ -34,28 +60,36 @@ const SignUpPage = () => {
     alert("Sign up successful!");
     resetForm();
     setSubmitting(false);
+    navigate("/login");
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="w-full max-w-md bg-white rounded-lg shadow p-6">
-        <h2 className="text-2xl font-bold text-center mb-4">Sign Up</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-400 to-pink-500 p-6">
+      <div className="bg-white bg-opacity-90 backdrop-blur-lg shadow-2xl rounded-3xl max-w-md w-full p-8">
+        <div className="flex flex-col items-center mb-6">
+          <FaUserPlus className="text-5xl text-pink-600 mb-2" />
+          <h2 className="text-2xl font-bold text-gray-700">Create Account</h2>
+        </div>
+
         <Formik
           initialValues={initialValues}
-          validationSchema={validationSchema}
+          validate={validate}
           onSubmit={onSubmit}
         >
           {({ isSubmitting }) => (
-            <Form className="space-y-4">
+            <Form className="space-y-5">
               <div>
-                <label htmlFor="fullName" className="block font-medium">
+                <label
+                  htmlFor="fullName"
+                  className="block text-gray-600 font-medium mb-1"
+                >
                   Full Name
                 </label>
                 <Field
                   type="text"
                   id="fullName"
                   name="fullName"
-                  className="mt-1 block w-full border border-gray-300 rounded px-3 py-2"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-300"
                 />
                 <ErrorMessage
                   name="fullName"
@@ -65,14 +99,17 @@ const SignUpPage = () => {
               </div>
 
               <div>
-                <label htmlFor="email" className="block font-medium">
+                <label
+                  htmlFor="email"
+                  className="block text-gray-600 font-medium mb-1"
+                >
                   Email Address
                 </label>
                 <Field
                   type="email"
                   id="email"
                   name="email"
-                  className="mt-1 block w-full border border-gray-300 rounded px-3 py-2"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-300"
                 />
                 <ErrorMessage
                   name="email"
@@ -82,14 +119,17 @@ const SignUpPage = () => {
               </div>
 
               <div>
-                <label htmlFor="password" className="block font-medium">
+                <label
+                  htmlFor="password"
+                  className="block text-gray-600 font-medium mb-1"
+                >
                   Password
                 </label>
                 <Field
                   type="password"
                   id="password"
                   name="password"
-                  className="mt-1 block w-full border border-gray-300 rounded px-3 py-2"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-300"
                 />
                 <ErrorMessage
                   name="password"
@@ -99,14 +139,17 @@ const SignUpPage = () => {
               </div>
 
               <div>
-                <label htmlFor="confirmPassword" className="block font-medium">
+                <label
+                  htmlFor="confirmPassword"
+                  className="block text-gray-600 font-medium mb-1"
+                >
                   Confirm Password
                 </label>
                 <Field
                   type="password"
                   id="confirmPassword"
                   name="confirmPassword"
-                  className="mt-1 block w-full border border-gray-300 rounded px-3 py-2"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-300"
                 />
                 <ErrorMessage
                   name="confirmPassword"
@@ -118,16 +161,24 @@ const SignUpPage = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+                className="w-full py-2 bg-pink-600 text-white font-semibold rounded-lg hover:bg-pink-700 transition"
               >
                 {isSubmitting ? "Signing Up..." : "Sign Up"}
               </button>
             </Form>
           )}
         </Formik>
+
+        <p className="mt-6 text-center text-gray-600">
+          Already have an account?{" "}
+          <Link
+            to="/login"
+            className="text-pink-600 font-medium hover:underline"
+          >
+            Log In
+          </Link>
+        </p>
       </div>
     </div>
   );
-};
-
-export default SignUpPage;
+}

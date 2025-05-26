@@ -12,29 +12,19 @@ import LoginPage from "../pages/LoginPage";
 import HomePage from "../pages/HomePage";
 import BMICalculator from "../pages/BMICalculator";
 import ProtectedRoute from "../pages/ProtectedRoute";
-
-function RootLayout() {
-  return (
-    <>
-      <Nav />
-      <Outlet />
-      <Footer />
-    </>
-  );
-}
+import Register from "../pages/Register";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <RootLayout />,
+    element: <Outlet />, // no protection here
     children: [
-      // Public
-      { index: true, element: <LoginPage /> },
-      { path: "login", element: <LoginPage /> },
+      { index: true, element: <LoginPage /> }, // public
+      { path: "login", element: <LoginPage /> }, // public
+      { path: "register", element: <Register /> }, // public
 
-      // Protected
       {
-        path: "home",
+        path: "home", // protected
         element: (
           <ProtectedRoute>
             <HomePage />
@@ -42,7 +32,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "bmi",
+        path: "bmi", // protected
         element: (
           <ProtectedRoute>
             <BMICalculator />
@@ -50,7 +40,6 @@ const router = createBrowserRouter([
         ),
       },
 
-      // Fallback
       { path: "*", element: <Navigate to="/login" replace /> },
     ],
   },
