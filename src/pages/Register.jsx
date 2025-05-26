@@ -48,18 +48,18 @@ export default function Register() {
       password: values.password,
     };
     localStorage.setItem("user", JSON.stringify(user));
-    toast.success("Sign up successful!", {
-      position: "top-right",
-      autoClose: 3000,
-    });
-    resetForm();
+
+    toast.success("Sign-up successful! Redirecting to login…");
     setSubmitting(false);
-    navigate("/login");
+    resetForm();
+
+    // After 3 seconds, go to /login
+    setTimeout(() => navigate("/login"), 3000);
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-400 to-pink-500 p-6">
-      <ToastContainer />
+      <ToastContainer position="top-center" />
       <div className="bg-white bg-opacity-90 backdrop-blur-lg shadow-2xl rounded-3xl max-w-md w-full p-8">
         <div className="flex flex-col items-center mb-6">
           <FaUserPlus className="text-5xl text-pink-600 mb-2" />

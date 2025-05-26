@@ -27,7 +27,9 @@ const router = createBrowserRouter([
         path: "home", // protected
         element: (
           <ProtectedRoute>
+            <Nav />
             <HomePage />
+            <Footer />
           </ProtectedRoute>
         ),
       },
@@ -35,7 +37,9 @@ const router = createBrowserRouter([
         path: "bmi", // protected
         element: (
           <ProtectedRoute>
+            <Nav />
             <BMICalculator />
+            <Footer />
           </ProtectedRoute>
         ),
       },
