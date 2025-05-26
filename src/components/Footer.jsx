@@ -1,7 +1,7 @@
-/* src/components/Footer.jsx */
+// src/components/Footer.jsx
 import React from "react";
 import { Link } from "react-router";
-import { FaTwitter, FaDiscord, FaGithub } from "react-icons/fa";
+import { FaTwitter, FaGithub } from "react-icons/fa";
 
 export default function Footer() {
   return (
@@ -9,13 +9,13 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Brand & Social */}
         <div className="space-y-4">
-          <h3 className="text-2xl font-bold text-white">My Company</h3>
+          <h3 className="text-2xl font-bold text-white">BMI Calculator</h3>
           <p className="text-gray-400">
-            We’re dedicated to providing exceptional services. We value passion,
-            commitment, and innovation in everything we do.
+            A simple, secure tool to calculate your Body Mass Index and help you
+            understand your health status—anytime, anywhere.
           </p>
           <div className="flex space-x-4">
-            {[FaTwitter, FaDiscord, FaGithub].map((Icon, i) => (
+            {[FaTwitter, FaGithub].map((Icon, i) => (
               <a
                 key={i}
                 href="#"
@@ -33,10 +33,8 @@ export default function Footer() {
           <h4 className="text-xl font-semibold text-white mb-4">Quick Links</h4>
           <ul className="space-y-2 text-gray-400">
             {[
-              { label: "Home", to: "/" },
-              // { label: "About", to: "/about" },
-              // { label: "Careers", to: "/apply" },
-              // { label: "My Applications", to: "/applications" },
+              { label: "Home", to: "/home" },
+              { label: "BMI Calculator", to: "/bmi" },
             ].map((link) => (
               <li key={link.to}>
                 <Link
@@ -52,25 +50,23 @@ export default function Footer() {
 
         {/* Contact Info */}
         <div>
-          <h4 className="text-xl font-semibold text-white mb-4">
-            Get in Touch
-          </h4>
+          <h4 className="text-xl font-semibold text-white mb-4">Contact Us</h4>
           <p className="text-gray-400">
             <strong>Email:</strong>{" "}
             <a
-              href="mailto:info@mycompany.com"
+              href="mailto:hello@bmicalculator.com"
               className="hover:text-white transition focus:outline-none focus:underline"
             >
-              info@mycompany.com
+              hello@bmicalculator.com
             </a>
           </p>
           <p className="text-gray-400">
             <strong>Support:</strong>{" "}
             <a
-              href="mailto:support@mycompany.com"
+              href="mailto:support@bmicalculator.com"
               className="hover:text-white transition focus:outline-none focus:underline"
             >
-              support@mycompany.com
+              support@bmicalculator.com
             </a>
           </p>
         </div>
@@ -79,7 +75,7 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-gray-700">
         <div className="max-w-7xl mx-auto px-6 py-4 text-center text-sm text-gray-500">
-          &copy; 2025 My Company. All rights reserved.
+          &copy; {new Date().getFullYear()} BMI Calculator. All rights reserved.
         </div>
       </div>
     </footer>
