@@ -1,6 +1,9 @@
+// src/components/Navbar.jsx
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { IoMenu, IoClose } from "react-icons/io5";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import BlockedScreen from "../pages/BlockedScreen";
 
 export default function Navbar({ children }) {
@@ -8,87 +11,142 @@ export default function Navbar({ children }) {
   const [userName, setUserName] = useState(null);
   const [auth, setAuth] = useState(false);
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const isAuth = localStorage.getItem("isAuthenticated") === "true";
     setAuth(isAuth);
     if (isAuth) {
       const storedUser = JSON.parse(localStorage.getItem("user"));
-      if (storedUser && storedUser.fullName) setUserName(storedUser.fullName);
+      if (storedUser?.fullName) setUserName(storedUser.fullName);
     }
   }, []);
 
   if (!auth) return <BlockedScreen />;
 
+  const links = [
+    { to: "/home", label: "Home" },
+    { to: "/bmi", label: "BMI Calculator" },
+  ];
+
   const linkClass = (path) =>
-    `block px-6 py-3 font-medium rounded-md transition ${
+    `block px-4 py-2 rounded-md font-medium transition ${
       pathname === path
         ? "bg-white text-gray-900"
         : "text-white hover:bg-gray-700"
     }`;
 
+  const handleLogout = () => {
+    toast(
+      ({ closeToast }) => (
+        <div className="space-y-2">
+          <p>Are you sure you want to logout?</p>
+          <div className="flex justify-end gap-2">
+            <button
+              onClick={() => {
+                localStorage.removeItem("isAuthenticated");
+                closeToast();
+                navigate("/login");
+              }}
+              className="px-3 py-1 bg-red-600 text-white rounded"
+            >
+              Yes
+            </button>
+            <button
+              onClick={closeToast}
+              className="px-3 py-1 bg-gray-300 text-gray-800 rounded"
+            >
+              No
+            </button>
+          </div>
+        </div>
+      ),
+      { position: "top-center", autoClose: false }
+    );
+  };
+
   return (
     <div>
-      <nav className="bg-gray-900 text-white shadow-md relative">
-        <div className="container mx-auto flex items-center justify-between lg:justify-normal lg:gap-10 p-4">
-          <Link to="/" className="flex items-center space-x-2 justify-center">
-            <img src="react-icon.webp" alt="icon" className="h-12" />
+      <ToastContainer />
+      <nav className="bg-gray-900 text-white shadow-md">
+        <div className="container mx-auto flex items-center justify-between p-4">
+          {/* Brand */}
+          <Link to="/home" className="flex items-center space-x-2">
+            <img src="react-icon.webp" alt="icon" className="h-10" />
             <span className="text-xl font-bold">My Company</span>
           </Link>
 
-          <div className="hidden lg:flex space-x-4 items-center">
-            <Link to="/" className={linkClass("/")}>
-              Home
-            </Link>
-            <Link to="/about" className={linkClass("/about")}>
-              About
-            </Link>
-            <Link to="/apply" className={linkClass("/apply")}>
-              Apply
-            </Link>
-            <Link to="/applications" className={linkClass("/applications")}>
-              My Applications
-            </Link>
+          {/* Desktop Links */}
+          <div className="hidden lg:flex lg:space-x-6">
+            {links.map(({ to, label }) => (
+              <Link key={to} to={to} className={linkClass(to)}>
+                {label}
+              </Link>
+            ))}
+          </div>
+
+          {/* Username + Logout on lg+ */}
+          <div className="hidden lg:flex items-center space-x-4">
             {userName && (
-              <span className="ml-6 text-sm text-gray-200">
+              <span className="text-sm text-gray-200 whitespace-nowrap">
                 Hello, {userName}
               </span>
             )}
+            <button
+              onClick={handleLogout}
+              className="px-3 py-1 bg-red-500 hover:bg-red-600 rounded text-white text-sm"
+            >
+              Logout
+            </button>
           </div>
 
-          <button onClick={() => setMenuOpen((o) => !o)} className="lg:hidden">
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setMenuOpen((o) => !o)}
+            className="lg:hidden focus:outline-none"
+          >
             {menuOpen ? <IoClose size={28} /> : <IoMenu size={28} />}
           </button>
         </div>
 
+        {/* Mobile dropdown */}
         <div
-          className={`${
+          className={`lg:hidden bg-gray-900 overflow-hidden transition-max-height duration-300 ${
             menuOpen ? "max-h-screen" : "max-h-0"
-          } lg:hidden bg-gray-900 overflow-hidden transition-max-height duration-300`}
+          }`}
         >
           <ul className="flex flex-col">
-            {["/", "/about", "/apply", "/applications"].map((path) => (
-              <li key={path}>
+            {links.map(({ to, label }) => (
+              <li key={to}>
                 <Link
-                  to={path}
+                  to={to}
                   onClick={() => setMenuOpen(false)}
-                  className={linkClass(path)}
+                  className={linkClass(to)}
                 >
-                  {path === "/"
-                    ? "Home"
-                    : path.slice(1).charAt(0).toUpperCase() + path.slice(2)}
+                  {label}
                 </Link>
               </li>
             ))}
             {userName && (
-              <li className="px-6 py-3">
-                <span className="text-sm text-gray-200">Hello, {userName}</span>
-              </li>
+              <li className="px-4 py-2 text-gray-200">Hello, {userName}</li>
             )}
+            <li className="px-4 py-2">
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  handleLogout();
+                }}
+                className="w-full text-left text-red-400 hover:text-red-500"
+              >
+                Logout
+              </button>
+            </li>
           </ul>
         </div>
       </nav>
-      {children}
+
+      {/* Render page content */}
+      <div>{children}</div>
     </div>
   );
 }
